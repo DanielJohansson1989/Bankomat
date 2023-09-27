@@ -13,16 +13,29 @@
             while (isRunning)
             {
                 // Logging in to account
+                bool loggInSuccess;
+                int loggInAtempts = 0;
+                do
+                {
+                    Console.Write("Ange användarnamn:");
+                    string username = Console.ReadLine().ToUpper();
 
-                Console.Write("Ange användarnamn:");
-                string username = Console.ReadLine().ToUpper();
+                    Console.Write("Ange lösenord:");
+                    int pinCode = Convert.ToInt32(Console.ReadLine()); // Add a try catch later
 
-                Console.Write("Ange lösenord:");
-                int pinCode = Convert.ToInt32(Console.ReadLine()); // Add a try catch later
+                    loggInSuccess = LoggingIn(username, pinCode);
 
-                isRunning = LoggingIn(username, pinCode);
+                    loggInAtempts++;
 
-                // Menu with funktions
+                }while (!loggInSuccess && loggInAtempts < 3);
+
+                if (loggInSuccess)
+                {
+                    //Console.WriteLine("Logg in succeeded");
+                    // Menu with funktions
+                }
+                else { isRunning = false; }
+                
             }
         }
 
