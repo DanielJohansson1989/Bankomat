@@ -21,7 +21,12 @@
                     string username = Console.ReadLine().ToUpper();
 
                     Console.Write("Ange lösenord:");
-                    int pinCode = Convert.ToInt32(Console.ReadLine()); // Add a try catch later
+                    int pinCode;
+                    while (!int.TryParse(Console.ReadLine(), out pinCode)) 
+                    { 
+                        Console.WriteLine("Du kan enbart ange siffror");
+                        Console.Write("Ange lösenord:");
+                    }
 
                     loggInSuccess = LoggingIn(username, pinCode);
 
@@ -31,8 +36,55 @@
 
                 if (loggInSuccess)
                 {
-                    //Console.WriteLine("Logg in succeeded");
-                    // Menu with funktions
+                    // Menu with functions
+
+                    bool runMenu = true;
+                    while (runMenu)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Vad vill du göra?\n");
+                        Console.WriteLine("1. Se dina konton och saldo");
+                        Console.WriteLine("2. Överföring mellan konton");
+                        Console.WriteLine("3. Ta ut pengar");
+                        Console.WriteLine("4. Logga ut");
+                        
+                        int menuOption;
+
+                        while (!int.TryParse(Console.ReadLine(),out menuOption))
+                        {
+                            Console.WriteLine("Ogiltigt val");
+                        }
+
+                        switch (menuOption)
+                        {
+                            case 1:
+                                // method see acounts and balance
+                                Console.WriteLine("Klicka enter för att komma till huvudmenyn");
+                                while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
+                                break;
+
+                            case 2:
+                                // method transfere between acounts
+                                Console.WriteLine("Klicka enter för att komma till huvudmenyn");
+                                while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
+                                break; 
+
+                            case 3:
+                                // method withdraw money
+                                Console.WriteLine("Klicka enter för att komma till huvudmenyn");
+                                while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
+                                break; 
+
+                            case 4:
+                                runMenu = false;
+                                break;
+
+                            default:
+                                Console.WriteLine("Ogiltigt val");
+                                Console.ReadKey();
+                                break;
+                        }
+                    }
                 }
                 else { isRunning = false; }
                 
