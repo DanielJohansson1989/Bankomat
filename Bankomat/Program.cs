@@ -4,6 +4,7 @@
     {
         static void Main(string[] args)
         {
+            double[] acountsDaniel = { 500, 2000 };
             bool isRunning = true;
 
             // Greet user at startup
@@ -13,7 +14,7 @@
             while (isRunning)
             {
                 // Logging in to account
-                bool loggInSuccess;
+                int userProfile = 0;
                 int loggInAtempts = 0;
                 do
                 {
@@ -28,84 +29,108 @@
                         Console.Write("Ange lösenord:");
                     }
 
-                    loggInSuccess = LoggingIn(username, pinCode);
+                    if (username == "DANIEL" && pinCode == 12345) { userProfile = 1; }
 
-                    loggInAtempts++;
+                    else if (username == "TOBIAS" && pinCode == 54321) { userProfile = 2; }
 
-                }while (!loggInSuccess && loggInAtempts < 3);
+                    else if (username == "MARKUS" && pinCode == 67890) { userProfile = 3; }
 
-                if (loggInSuccess)
+                    else if (username == "SANDRA" && pinCode == 09876) { userProfile = 4; } 
+                    
+                    else if (username == "EMMA" && pinCode == 01234) { userProfile = 5; }
+
+                        loggInAtempts++;
+
+                }while (userProfile == 0 && loggInAtempts < 3);
+
+                switch (userProfile)
                 {
-                    // Menu with functions
+                    case 0:
+                        isRunning = false; // Prgoram shuts down
+                        break;
 
-                    bool runMenu = true;
-                    while (runMenu)
-                    {
-                        Console.Clear();
-                        Console.WriteLine("Vad vill du göra?\n");
-                        Console.WriteLine("1. Se dina konton och saldo");
-                        Console.WriteLine("2. Överföring mellan konton");
-                        Console.WriteLine("3. Ta ut pengar");
-                        Console.WriteLine("4. Logga ut");
+                    case 1:
                         
-                        int menuOption;
+                        Menu(acountsDaniel);
+                        break;
 
-                        while (!int.TryParse(Console.ReadLine(),out menuOption))
-                        {
-                            Console.WriteLine("Ogiltigt val");
-                        }
+                    case 2:
+                        //Menu();
+                        break; 
 
-                        switch (menuOption)
-                        {
-                            case 1:
-                                // method see acounts and balance
-                                Console.WriteLine("Klicka enter för att komma till huvudmenyn");
-                                while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
-                                break;
-
-                            case 2:
-                                // method transfere between acounts
-                                Console.WriteLine("Klicka enter för att komma till huvudmenyn");
-                                while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
-                                break; 
-
-                            case 3:
-                                // method withdraw money
-                                Console.WriteLine("Klicka enter för att komma till huvudmenyn");
-                                while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
-                                break; 
-
-                            case 4:
-                                runMenu = false;
-                                break;
-
-                            default:
-                                Console.WriteLine("Ogiltigt val");
-                                Console.ReadKey();
-                                break;
-                        }
-                    }
-                }
-                else { isRunning = false; }
-                
+                    case 3:
+                        //Menu();
+                        break;
+                    case 4:
+                        //Menu();
+                        break;
+                    case 5:
+                        //Menu();
+                        break;
+                }               
             }
-        }
-
-        // method for logging in
-
-        public static bool LoggingIn(string username, int pinCode)
-        {
+        }        
             
-            if ( (username == "DANIEL" && pinCode == 12345) || (username == "TOBIAS" && pinCode == 54321) || (username == "MARKUS" && pinCode == 67890) || (username == "SANDRA" && pinCode == 09876) || (username == "EMMA" && pinCode == 01234) )
+        public static void Menu(double[] array)
+        {
+            // Menu with functions
+
+            bool runMenu = true;
+            while (runMenu)
             {
-                return true;
+                Console.Clear();
+                Console.WriteLine("Vad vill du göra?\n");
+                Console.WriteLine("1. Se dina konton och saldo");
+                Console.WriteLine("2. Överföring mellan konton");
+                Console.WriteLine("3. Ta ut pengar");
+                Console.WriteLine("4. Logga ut");
+
+                int menuOption;
+
+                while (!int.TryParse(Console.ReadLine(), out menuOption))
+                {
+                    Console.WriteLine("Ogiltigt val");
+                }
+
+                switch (menuOption)
+                {
+                    case 1:
+                        // method see acounts and balance
+                        PrintAcounts(array);
+                        Console.WriteLine("Klicka enter för att komma till huvudmenyn");
+                        while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
+                        break;
+
+                    case 2:
+                        // method transfere between acounts
+                        Console.WriteLine("Klicka enter för att komma till huvudmenyn");
+                        while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
+                        break;
+
+                    case 3:
+                        // method withdraw money
+                        Console.WriteLine("Klicka enter för att komma till huvudmenyn");
+                        while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
+                        break;
+
+                    case 4:
+                        runMenu = false;
+                        break;
+
+                    default:
+                        Console.WriteLine("Ogiltigt val");
+                        Console.ReadKey();
+                        break;
+                }
             }
-
-            else { return false; }
-
-        }
+        }   
 
         // method for printing user acounts and current balance
+
+        public static void PrintAcounts(double[] array) 
+        {
+            foreach (double value in array) Console.WriteLine(value);
+        }
 
         // method for transfering money between acounts
 
