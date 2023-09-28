@@ -4,7 +4,13 @@
     {
         static void Main(string[] args)
         {
-            double[] acountsDaniel = { 500, 2000 };
+            decimal[] acountsDaniel = { 500, 2000 };
+            decimal[] acountsTobias = { 100055.50m };
+            decimal[] acountsMarkus = { 1531.19m, 0, 2525.0m };
+            decimal[] acountsSandra = { 0, 50000, 460.99m, 23000 };
+            decimal[] acountsEmma = { 777.7m , 0 , 0, 50679.35m, 479549.50m };
+            string[] acountNames = { "Lönekonto", "Sparkonto", "Matkonto", "Semesterkonto", "Pensionskonto" };
+
             bool isRunning = true;
 
             // Greet user at startup
@@ -51,27 +57,27 @@
 
                     case 1:
                         
-                        Menu(acountsDaniel);
+                        Menu(acountsDaniel, acountNames);
                         break;
 
                     case 2:
-                        //Menu();
+                        Menu(acountsTobias, acountNames);
                         break; 
 
                     case 3:
-                        //Menu();
+                        Menu(acountsMarkus, acountNames);
                         break;
                     case 4:
-                        //Menu();
+                        Menu(acountsSandra, acountNames);
                         break;
                     case 5:
-                        //Menu();
+                        Menu(acountsEmma, acountNames);
                         break;
                 }               
             }
         }        
             
-        public static void Menu(double[] array)
+        public static void Menu(decimal[] acounts, string[] acountNames)
         {
             // Menu with functions
 
@@ -96,7 +102,7 @@
                 {
                     case 1:
                         // method see acounts and balance
-                        PrintAcounts(array);
+                        PrintAcounts(acounts, acountNames);
                         Console.WriteLine("Klicka enter för att komma till huvudmenyn");
                         while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
                         break;
@@ -127,9 +133,12 @@
 
         // method for printing user acounts and current balance
 
-        public static void PrintAcounts(double[] array) 
+        public static void PrintAcounts(decimal[] acounts, string[] acountNames) 
         {
-            foreach (double value in array) Console.WriteLine(value);
+            for (int i = 0; i < acounts.Length; i++) 
+            {
+                Console.WriteLine($"{acountNames[i]}: {acounts[i]} sek"); 
+            }
         }
 
         // method for transfering money between acounts
