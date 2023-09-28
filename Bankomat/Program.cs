@@ -109,6 +109,7 @@
 
                     case 2:
                         // method transfere between acounts
+                        TransferringMoney(acounts, acountNames);
                         Console.WriteLine("Klicka enter för att komma till huvudmenyn");
                         while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
                         break;
@@ -142,6 +143,48 @@
         }
 
         // method for transfering money between acounts
+
+        public static void TransferringMoney(decimal[] acounts, string[] acountNames)
+        {
+            Console.WriteLine("Välj vilket konto du vill flytta pengar från.");
+            for (int i = 0; i < acounts.Length; i++)
+            {
+                Console.WriteLine($"{i + 1} - {acountNames[i]}");
+            }
+
+            int acountNumberFrom;
+
+            while (!int.TryParse(Console.ReadLine(), out acountNumberFrom)) // Need to secure from out of range exception
+            {
+                Console.WriteLine("Ogiltigt val"); 
+            }
+
+            Console.WriteLine("Välj vilket konto du vill flytta pengar till.");
+            for (int i = 0; i < acounts.Length; i++)
+            {
+                Console.WriteLine($"{i + 1} - {acountNames[i]}");
+            }
+
+            int acountNumberTo;
+
+            while (!int.TryParse(Console.ReadLine(),out acountNumberTo)) // Need to secure from out of range exception
+            {
+                Console.WriteLine("Ogiltigt val");
+            }
+
+            Console.WriteLine("Hur mycket vill du överföra?");
+
+            decimal amountToTransfer;
+
+            while (!decimal.TryParse(Console.ReadLine(), out amountToTransfer))
+
+            acounts[acountNumberFrom - 1] -= amountToTransfer; // Out keyword skips this part
+
+            acounts[acountNumberTo - 1] += amountToTransfer; // Out keyword goes directly here, don't know why
+
+            Console.WriteLine($"{acountNames[acountNumberFrom - 1]}: {acounts[acountNumberFrom - 1]} sek");
+            Console.WriteLine($"{acountNames[acountNumberTo - 1]}: {acounts[acountNumberTo - 1]} sek");
+        }
 
         // method for withdrawing money
     }
