@@ -4,12 +4,12 @@
     {
         static void Main(string[] args)
         {
-            decimal[] acountsDaniel = { 500, 2000 };
-            decimal[] acountsTobias = { 100055.50m };
-            decimal[] acountsMarkus = { 1531.19m, 0, 2525.0m };
-            decimal[] acountsSandra = { 0, 50000, 460.99m, 23000 };
-            decimal[] acountsEmma = { 777.7m , 0 , 0, 50679.35m, 479549.50m };
-            string[] acountNames = { "Lönekonto", "Sparkonto", "Matkonto", "Semesterkonto", "Pensionskonto" };
+            decimal[] accountsDaniel = { 500, 2000 };
+            decimal[] accountsTobias = { 100055.50m };
+            decimal[] accountsMarkus = { 1531.19m, 0, 2525.0m };
+            decimal[] accountsSandra = { 0, 50000, 460.99m, 23000 };
+            decimal[] accountsEmma = { 777.7m , 0 , 0, 50679.35m, 479549.50m };
+            string[] accountNames = { "Lönekonto", "Sparkonto", "Matkonto", "Semesterkonto", "Pensionskonto" };
 
             bool isRunning = true;
 
@@ -57,27 +57,27 @@
 
                     case 1:
                         
-                        Menu(acountsDaniel, acountNames);
+                        Menu(accountsDaniel, accountNames);
                         break;
 
                     case 2:
-                        Menu(acountsTobias, acountNames);
+                        Menu(accountsTobias, accountNames);
                         break; 
 
                     case 3:
-                        Menu(acountsMarkus, acountNames);
+                        Menu(accountsMarkus, accountNames);
                         break;
                     case 4:
-                        Menu(acountsSandra, acountNames);
+                        Menu(accountsSandra, accountNames);
                         break;
                     case 5:
-                        Menu(acountsEmma, acountNames);
+                        Menu(accountsEmma, accountNames);
                         break;
                 }               
             }
         }        
             
-        public static void Menu(decimal[] acounts, string[] acountNames)
+        public static void Menu(decimal[] accounts, string[] accountNames)
         {
             // Menu with functions
 
@@ -102,14 +102,14 @@
                 {
                     case 1:
                         // method see acounts and balance
-                        PrintAcounts(acounts, acountNames);
+                        PrintAcounts(accounts, accountNames);
                         Console.WriteLine("Klicka enter för att komma till huvudmenyn");
                         while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
                         break;
 
                     case 2:
                         // method transfere between acounts
-                        TransferringMoney(acounts, acountNames);
+                        TransferringMoney(accounts, accountNames);
                         Console.WriteLine("Klicka enter för att komma till huvudmenyn");
                         while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
                         break;
@@ -132,72 +132,72 @@
             }
         }   
 
-        // method for printing user acounts and current balance
+        // method for printing user accounts and current balance
 
-        public static void PrintAcounts(decimal[] acounts, string[] acountNames) 
+        public static void PrintAcounts(decimal[] accounts, string[] accountNames) 
         {
-            for (int i = 0; i < acounts.Length; i++) 
+            for (int i = 0; i < accounts.Length; i++) 
             {
-                Console.WriteLine($"{acountNames[i]}: {acounts[i]} sek"); 
+                Console.WriteLine($"{accountNames[i]}: {accounts[i]} sek"); 
             }
         }
 
         // method for transfering money between accounts
 
-        public static void TransferringMoney(decimal[] acounts, string[] acountNames) 
+        public static void TransferringMoney(decimal[] accounts, string[] accountNames) 
         {
             // Print available accounts. Exclude account with no money 
             Console.WriteLine("Välj vilket konto du vill flytta pengar från.");
-            for (int i = 0; i < acounts.Length; i++)
+            for (int i = 0; i < accounts.Length; i++)
             {
-                if (acounts[i] > 0)
+                if (accounts[i] > 0)
                 {
-                    Console.WriteLine($"{i + 1} - {acountNames[i]}");
+                    Console.WriteLine($"{i + 1} - {accountNames[i]}");
                 }
             }
 
             // Acceptable user input is only the numbers of the available acounts
-            int acountNumberFrom;
+            int accountNumberFrom;
             do 
             {
-                while (!int.TryParse(Console.ReadLine(), out acountNumberFrom)) 
+                while (!int.TryParse(Console.ReadLine(), out accountNumberFrom)) 
                 {
                     Console.WriteLine("Ogiltigt val");
                 }
 
-                if (acountNumberFrom > acounts.Length || acountNumberFrom <= 0 || acounts[acountNumberFrom - 1] == 0)
+                if (accountNumberFrom > accounts.Length || accountNumberFrom <= 0 || accounts[accountNumberFrom - 1] == 0)
                 {
                     Console.WriteLine("Ogiltigt val");
                 }
 
-            } while (acountNumberFrom > acounts.Length || acountNumberFrom <= 0 || acounts[acountNumberFrom - 1] == 0);
+            } while (accountNumberFrom > accounts.Length || accountNumberFrom <= 0 || accounts[accountNumberFrom - 1] == 0);
 
             // Print availiable acounts for deposit. 
             Console.WriteLine("Välj vilket konto du vill flytta pengar till.");
-            for (int i = 0; i < acounts.Length; i++)
+            for (int i = 0; i < accounts.Length; i++)
             {
-                // Excluding acount where money is tranfered from.
-                if (i != acountNumberFrom - 1)
+                // Excluding account where money is tranfered from.
+                if (i != accountNumberFrom - 1)
                 {
-                    Console.WriteLine($"{i + 1} - {acountNames[i]}");
+                    Console.WriteLine($"{i + 1} - {accountNames[i]}");
                 }
             }
 
             // Acceptable user input is only the number of the accounts printed above
-            int acountNumberTo;
+            int accountNumberTo;
             do
             {
-                while (!int.TryParse(Console.ReadLine(), out acountNumberTo))
+                while (!int.TryParse(Console.ReadLine(), out accountNumberTo))
                 {
                     Console.WriteLine("Ogiltigt val");
                 }
 
-                if (acountNumberTo > acounts.Length || acountNumberTo <= 0 || acountNumberTo == acountNumberFrom)
+                if (accountNumberTo > accounts.Length || accountNumberTo <= 0 || accountNumberTo == accountNumberFrom)
                 {
                     Console.WriteLine("Ogiltigt val");
                 }
 
-            } while (acountNumberTo > acounts.Length || acountNumberTo <= 0 || acountNumberTo == acountNumberFrom);
+            } while (accountNumberTo > accounts.Length || accountNumberTo <= 0 || accountNumberTo == accountNumberFrom);
 
             Console.WriteLine("Hur mycket vill du överföra?");
 
@@ -217,19 +217,19 @@
                     Console.WriteLine("Ange ett belopp större än 0"); 
                 }
 
-                else if (amountToTransfer > acounts[acountNumberFrom - 1])
+                else if (amountToTransfer > accounts[accountNumberFrom - 1])
                 {
                     Console.WriteLine("Övertrassering ej tillåtet");
                 }
 
-            } while (amountToTransfer <= 0 || amountToTransfer > acounts[acountNumberFrom - 1]);
+            } while (amountToTransfer <= 0 || amountToTransfer > accounts[accountNumberFrom - 1]);
 
             // Transferring money and printing the current balance
-            acounts[acountNumberFrom - 1] -= amountToTransfer; 
-            acounts[acountNumberTo - 1] += amountToTransfer;
+            accounts[accountNumberFrom - 1] -= amountToTransfer; 
+            accounts[accountNumberTo - 1] += amountToTransfer;
 
-            Console.WriteLine($"{acountNames[acountNumberFrom - 1]}: {acounts[acountNumberFrom - 1]} sek");
-            Console.WriteLine($"{acountNames[acountNumberTo - 1]}: {acounts[acountNumberTo - 1]} sek");
+            Console.WriteLine($"{accountNames[accountNumberFrom - 1]}: {accounts[accountNumberFrom - 1]} sek");
+            Console.WriteLine($"{accountNames[accountNumberTo - 1]}: {accounts[accountNumberTo - 1]} sek");
         }
 
         // method for withdrawing money
