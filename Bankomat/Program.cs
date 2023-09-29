@@ -145,6 +145,10 @@
         // method for transfering money between acounts
 
         public static void TransferringMoney(decimal[] acounts, string[] acountNames)
+
+            // Method incomplete. Able to select same acount for both withdrawing and deposit money.
+            // Able to withdraw more money than avaliable on the acount resulting in a negativ balance.
+            // Able to to select a number higher than the number of acounts resulting in an exception. 
         {
             Console.WriteLine("Välj vilket konto du vill flytta pengar från.");
             for (int i = 0; i < acounts.Length; i++)
@@ -176,7 +180,7 @@
 
             decimal amountToTransfer;
 
-            while (!decimal.TryParse(Console.ReadLine(), out amountToTransfer))
+            while (!decimal.TryParse(Console.ReadLine(), out amountToTransfer)) { Console.WriteLine("Ogiltigt val"); }
 
             acounts[acountNumberFrom - 1] -= amountToTransfer; // Out keyword skips this part
 
