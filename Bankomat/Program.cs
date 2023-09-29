@@ -142,49 +142,91 @@
             }
         }
 
-        // method for transfering money between acounts
+        // method for transfering money between accounts
 
-        public static void TransferringMoney(decimal[] acounts, string[] acountNames)
-
-            // Method incomplete. Able to select same acount for both withdrawing and deposit money.
-            // Able to withdraw more money than avaliable on the acount resulting in a negativ balance.
-            // Able to to select a number higher than the number of acounts resulting in an exception. 
+        public static void TransferringMoney(decimal[] acounts, string[] acountNames) 
         {
+            // Print available accounts. Exclude account with no money 
             Console.WriteLine("Välj vilket konto du vill flytta pengar från.");
             for (int i = 0; i < acounts.Length; i++)
             {
-                Console.WriteLine($"{i + 1} - {acountNames[i]}");
+                if (acounts[i] > 0)
+                {
+                    Console.WriteLine($"{i + 1} - {acountNames[i]}");
+                }
             }
 
+            // Acceptable user input is only the numbers of the available acounts
             int acountNumberFrom;
-
-            while (!int.TryParse(Console.ReadLine(), out acountNumberFrom)) // Need to secure from out of range exception
+            do 
             {
-                Console.WriteLine("Ogiltigt val"); 
-            }
+                while (!int.TryParse(Console.ReadLine(), out acountNumberFrom)) 
+                {
+                    Console.WriteLine("Ogiltigt val");
+                }
 
+                if (acountNumberFrom > acounts.Length || acountNumberFrom <= 0 || acounts[acountNumberFrom - 1] == 0)
+                {
+                    Console.WriteLine("Ogiltigt val");
+                }
+
+            } while (acountNumberFrom > acounts.Length || acountNumberFrom <= 0 || acounts[acountNumberFrom - 1] == 0);
+
+            // Print availiable acounts for deposit. 
             Console.WriteLine("Välj vilket konto du vill flytta pengar till.");
             for (int i = 0; i < acounts.Length; i++)
             {
-                Console.WriteLine($"{i + 1} - {acountNames[i]}");
+                // Excluding acount where money is tranfered from.
+                if (i != acountNumberFrom - 1)
+                {
+                    Console.WriteLine($"{i + 1} - {acountNames[i]}");
+                }
             }
 
+            // Acceptable user input is only the number of the accounts printed above
             int acountNumberTo;
-
-            while (!int.TryParse(Console.ReadLine(),out acountNumberTo)) // Need to secure from out of range exception
+            do
             {
-                Console.WriteLine("Ogiltigt val");
-            }
+                while (!int.TryParse(Console.ReadLine(), out acountNumberTo))
+                {
+                    Console.WriteLine("Ogiltigt val");
+                }
+
+                if (acountNumberTo > acounts.Length || acountNumberTo <= 0 || acountNumberTo == acountNumberFrom)
+                {
+                    Console.WriteLine("Ogiltigt val");
+                }
+
+            } while (acountNumberTo > acounts.Length || acountNumberTo <= 0 || acountNumberTo == acountNumberFrom);
 
             Console.WriteLine("Hur mycket vill du överföra?");
 
             decimal amountToTransfer;
 
-            while (!decimal.TryParse(Console.ReadLine(), out amountToTransfer)) { Console.WriteLine("Ogiltigt val"); }
+            // Accepted user input to transfer is more than 0 and tops at current balance
+            // of the account transferred from.
+            do
+            {
+                while (!decimal.TryParse(Console.ReadLine(), out amountToTransfer))
+                {
+                    Console.WriteLine("Ogiltigt val");
+                }
 
-            acounts[acountNumberFrom - 1] -= amountToTransfer; // Out keyword skips this part
+                if (amountToTransfer <= 0) 
+                { 
+                    Console.WriteLine("Ange ett belopp större än 0"); 
+                }
 
-            acounts[acountNumberTo - 1] += amountToTransfer; // Out keyword goes directly here, don't know why
+                else if (amountToTransfer > acounts[acountNumberFrom - 1])
+                {
+                    Console.WriteLine("Övertrassering ej tillåtet");
+                }
+
+            } while (amountToTransfer <= 0 || amountToTransfer > acounts[acountNumberFrom - 1]);
+
+            // Transferring money and printing the current balance
+            acounts[acountNumberFrom - 1] -= amountToTransfer; 
+            acounts[acountNumberTo - 1] += amountToTransfer;
 
             Console.WriteLine($"{acountNames[acountNumberFrom - 1]}: {acounts[acountNumberFrom - 1]} sek");
             Console.WriteLine($"{acountNames[acountNumberTo - 1]}: {acounts[acountNumberTo - 1]} sek");
