@@ -116,6 +116,7 @@
 
                     case 3:
                         // method withdraw money
+                        WithdrawMoney(accounts, accountNames);
                         Console.WriteLine("Klicka enter för att komma till huvudmenyn");
                         while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
                         break;
@@ -214,7 +215,7 @@
 
                 if (amountToTransfer <= 0) 
                 { 
-                    Console.WriteLine("Ange ett belopp större än 0"); 
+                    Console.WriteLine("Ange ett belopp större än noll"); 
                 }
 
                 else if (amountToTransfer > accounts[accountNumberFrom - 1])
@@ -233,5 +234,72 @@
         }
 
         // method for withdrawing money
+        public static void WithdrawMoney(decimal[] accounts, string[] accountNames)
+        {
+            Console.WriteLine("Välj vilket konto du vill ta ut pengar från");
+
+            // Print available accounts
+            for (int i = 0; i < accounts.Length; i++)
+            {
+                if (accounts[i] > 0)
+                {
+                    Console.WriteLine($"{i + 1} - {accountNames[i]}");
+                }
+            }
+
+            //Let user select accounts from available accounts
+            int selectedAccount;
+
+            do
+            {
+                while (!int.TryParse(Console.ReadLine(), out selectedAccount)) 
+                {
+                    Console.WriteLine("Ogiltigt val");
+                }
+
+                if (selectedAccount < 1 || selectedAccount > accounts.Length || accounts[selectedAccount - 1] == 0) 
+                {
+                    Console.WriteLine("Ogiltigt val");
+                }
+
+            } while (selectedAccount < 1 || selectedAccount > accounts.Length || accounts[selectedAccount - 1] == 0);
+
+            // Let user enter amount to withdraw
+            Console.WriteLine("Vilket belopp vill du ta ut?");
+
+            decimal amountToWithdraw;
+
+            do
+            {
+                while (!decimal.TryParse(Console.ReadLine(), out amountToWithdraw))
+                {
+                    Console.WriteLine("Ogiltigt val");
+                }
+
+                if (amountToWithdraw <= 0)
+                {
+                    Console.WriteLine("Ange ett belopp större än noll");
+                }
+
+                else if (amountToWithdraw > accounts[selectedAccount - 1])
+                {
+                    Console.WriteLine("Övertrassering ej tillåten");
+                }
+
+            } while (amountToWithdraw <= 0 || amountToWithdraw > accounts[selectedAccount - 1]);
+
+            // User have to enter pin code
+            Console.WriteLine("Bekräfta uttag med din kod");
+
+            bool correctPinCode = true;
+
+            // Withdraw money from selected account and print new balance
+            if (correctPinCode)
+            {
+                accounts[selectedAccount - 1] -= amountToWithdraw;
+
+                Console.WriteLine($"{accountNames[selectedAccount - 1]}: {accounts[selectedAccount - 1]} sek");
+            }
+        }
     }
 }
