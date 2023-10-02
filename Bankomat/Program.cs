@@ -22,13 +22,14 @@
                 // Logging in to account
                 int userProfile = 0;
                 int loggInAtempts = 0;
+                int pinCode;
                 do
                 {
                     Console.Write("Ange användarnamn:");
                     string username = Console.ReadLine().ToUpper();
 
                     Console.Write("Ange lösenord:");
-                    int pinCode;
+                    
                     while (!int.TryParse(Console.ReadLine(), out pinCode)) 
                     { 
                         Console.WriteLine("Du kan enbart ange siffror");
@@ -57,27 +58,27 @@
 
                     case 1:
                         
-                        Menu(accountsDaniel, accountNames);
+                        Menu(accountsDaniel, accountNames, pinCode);
                         break;
 
                     case 2:
-                        Menu(accountsTobias, accountNames);
+                        Menu(accountsTobias, accountNames, pinCode);
                         break; 
 
                     case 3:
-                        Menu(accountsMarkus, accountNames);
+                        Menu(accountsMarkus, accountNames, pinCode);
                         break;
                     case 4:
-                        Menu(accountsSandra, accountNames);
+                        Menu(accountsSandra, accountNames, pinCode);
                         break;
                     case 5:
-                        Menu(accountsEmma, accountNames);
+                        Menu(accountsEmma, accountNames, pinCode);
                         break;
                 }               
             }
         }        
             
-        public static void Menu(decimal[] accounts, string[] accountNames)
+        public static void Menu(decimal[] accounts, string[] accountNames, int pinCode)
         {
             // Menu with functions
 
@@ -116,7 +117,7 @@
 
                     case 3:
                         // method withdraw money
-                        WithdrawMoney(accounts, accountNames);
+                        WithdrawMoney(accounts, accountNames, pinCode);
                         Console.WriteLine("Klicka enter för att komma till huvudmenyn");
                         while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
                         break;
@@ -234,7 +235,7 @@
         }
 
         // method for withdrawing money
-        public static void WithdrawMoney(decimal[] accounts, string[] accountNames)
+        public static void WithdrawMoney(decimal[] accounts, string[] accountNames, int pinCode)
         {
             Console.WriteLine("Välj vilket konto du vill ta ut pengar från");
 
@@ -291,14 +292,24 @@
             // User have to enter pin code
             Console.WriteLine("Bekräfta uttag med din kod");
 
-            bool correctPinCode = true;
+            int confirmPinCode;
+            
+            while (!int.TryParse(Console.ReadLine(),out confirmPinCode))
+            {
+                Console.WriteLine("Ogiltigt tecken");
+            }
 
+            
             // Withdraw money from selected account and print new balance
-            if (correctPinCode)
+            if (confirmPinCode == pinCode)
             {
                 accounts[selectedAccount - 1] -= amountToWithdraw;
 
                 Console.WriteLine($"{accountNames[selectedAccount - 1]}: {accounts[selectedAccount - 1]} sek");
+            }
+            else 
+            { 
+                Console.WriteLine("Felaktig pinkod! Avbryter uttag..."); 
             }
         }
     }
