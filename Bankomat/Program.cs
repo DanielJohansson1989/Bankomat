@@ -8,74 +8,72 @@
             decimal[] accountsTobias = { 100055.50m };
             decimal[] accountsMarkus = { 1531.19m, 0, 2525.0m };
             decimal[] accountsSandra = { 0, 50000, 460.99m, 23000 };
-            decimal[] accountsEmma = { 777.7m , 0 , 0, 50679.35m, 479549.50m };
+            decimal[] accountsEmma = { 777.7m, 0, 0, 50679.35m, 479549.50m };
             string[] accountNames = { "Lönekonto", "Sparkonto", "Matkonto", "Semesterkonto", "Pensionskonto" };
 
-            bool isRunning = true;
+            int loggInAttempts = 0;
+            int pinCode;
 
             // Greet user at startup
 
-            Console.WriteLine("Välkomen till Sparbanken!");
+            Console.WriteLine("Välkommen till Sparbanken!");
 
-            while (isRunning)
+            // Logging in to account
+            while (loggInAttempts < 3)
             {
-                // Logging in to account
-                int userProfile = 0;
-                int loggInAtempts = 0;
-                int pinCode;
-                do
-                {
-                    Console.Write("Ange användarnamn:");
-                    string username = Console.ReadLine().ToUpper();
+                Console.Write("Ange användarnamn:");
+                string username = Console.ReadLine().ToUpper();
 
+                Console.Write("Ange lösenord:");
+
+                while (!int.TryParse(Console.ReadLine(), out pinCode))
+                {
+                    Console.WriteLine("Du kan enbart ange siffror");
                     Console.Write("Ange lösenord:");
-                    
-                    while (!int.TryParse(Console.ReadLine(), out pinCode)) 
-                    { 
-                        Console.WriteLine("Du kan enbart ange siffror");
-                        Console.Write("Ange lösenord:");
-                    }
+                }
 
-                    if (username == "DANIEL" && pinCode == 12345) { userProfile = 1; }
+                loggInAttempts++;
 
-                    else if (username == "TOBIAS" && pinCode == 54321) { userProfile = 2; }
-
-                    else if (username == "MARKUS" && pinCode == 67890) { userProfile = 3; }
-
-                    else if (username == "SANDRA" && pinCode == 09876) { userProfile = 4; } 
-                    
-                    else if (username == "EMMA" && pinCode == 01234) { userProfile = 5; }
-
-                        loggInAtempts++;
-
-                }while (userProfile == 0 && loggInAtempts < 3);
-
-                switch (userProfile)
+                if (username == "DANIEL" && pinCode == 12345)
                 {
-                    case 0:
-                        isRunning = false; // Prgoram shuts down
-                        break;
+                    Menu(accountsDaniel, accountNames, pinCode);
+                    loggInAttempts = 0;
+                }
 
-                    case 1:
-                        
-                        Menu(accountsDaniel, accountNames, pinCode);
-                        break;
+                else if (username == "TOBIAS" && pinCode == 54321)
+                {
+                    Menu(accountsTobias, accountNames, pinCode);
+                    loggInAttempts = 0;
+                }
 
-                    case 2:
-                        Menu(accountsTobias, accountNames, pinCode);
-                        break; 
+                else if (username == "MARKUS" && pinCode == 67890)
+                {
+                    Menu(accountsMarkus, accountNames, pinCode);
+                    loggInAttempts = 0;
+                }
 
-                    case 3:
-                        Menu(accountsMarkus, accountNames, pinCode);
-                        break;
-                    case 4:
-                        Menu(accountsSandra, accountNames, pinCode);
-                        break;
-                    case 5:
-                        Menu(accountsEmma, accountNames, pinCode);
-                        break;
-                }               
+                else if (username == "SANDRA" && pinCode == 09876)
+                {
+                    Menu(accountsSandra, accountNames, pinCode);
+                    loggInAttempts = 0;
+                }
+
+                else if (username == "EMMA" && pinCode == 01234)
+                {
+                    Menu(accountsEmma, accountNames, pinCode);
+                    loggInAttempts = 0;
+                }
+
+                else 
+                {
+                    Console.WriteLine("Fel användarnamn eller lösenord");
+                }
             }
+            Console.WriteLine("Du har skrivit in fel användarnamn eller lösenord tre gånger.");
+            Console.WriteLine("Tryck på enter för att avlsuta");
+
+            while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
+
         }        
             
         public static void Menu(decimal[] accounts, string[] accountNames, int pinCode)
