@@ -90,12 +90,7 @@
                 Console.WriteLine("3. Ta ut pengar");
                 Console.WriteLine("4. Logga ut");
 
-                int menuOption;
-
-                while (!int.TryParse(Console.ReadLine(), out menuOption))
-                {
-                    Console.WriteLine("Ogiltigt val");
-                }
+                int menuOption = GetParsedInt();
 
                 switch (menuOption)
                 {
@@ -160,10 +155,7 @@
             int accountNumberFrom;
             do 
             {
-                while (!int.TryParse(Console.ReadLine(), out accountNumberFrom)) 
-                {
-                    Console.WriteLine("Ogiltigt val");
-                }
+                accountNumberFrom = GetParsedInt();
 
                 if (accountNumberFrom > accounts.Length || accountNumberFrom <= 0 || accounts[accountNumberFrom - 1] == 0)
                 {
@@ -187,10 +179,7 @@
             int accountNumberTo;
             do
             {
-                while (!int.TryParse(Console.ReadLine(), out accountNumberTo))
-                {
-                    Console.WriteLine("Ogiltigt val");
-                }
+                accountNumberTo = GetParsedInt();
 
                 if (accountNumberTo > accounts.Length || accountNumberTo <= 0 || accountNumberTo == accountNumberFrom)
                 {
@@ -207,10 +196,7 @@
             // of the account transferred from.
             do
             {
-                while (!decimal.TryParse(Console.ReadLine(), out amountToTransfer))
-                {
-                    Console.WriteLine("Ogiltigt val");
-                }
+                amountToTransfer = GetParsedDecimal();
 
                 if (amountToTransfer <= 0) 
                 { 
@@ -251,10 +237,7 @@
 
             do
             {
-                while (!int.TryParse(Console.ReadLine(), out selectedAccount)) 
-                {
-                    Console.WriteLine("Ogiltigt val");
-                }
+                selectedAccount = GetParsedInt();
 
                 if (selectedAccount < 1 || selectedAccount > accounts.Length || accounts[selectedAccount - 1] == 0) 
                 {
@@ -270,10 +253,7 @@
 
             do
             {
-                while (!decimal.TryParse(Console.ReadLine(), out amountToWithdraw))
-                {
-                    Console.WriteLine("Ogiltigt val");
-                }
+                amountToWithdraw = GetParsedDecimal();
 
                 if (amountToWithdraw <= 0)
                 {
@@ -290,13 +270,7 @@
             // User have to enter pin code
             Console.WriteLine("Bekräfta uttag med din kod");
 
-            int confirmPinCode;
-            
-            while (!int.TryParse(Console.ReadLine(),out confirmPinCode))
-            {
-                Console.WriteLine("Ogiltigt tecken");
-            }
-
+            int confirmPinCode = GetParsedInt();
             
             // Withdraw money from selected account and print new balance
             if (confirmPinCode == pinCode)
@@ -309,6 +283,26 @@
             { 
                 Console.WriteLine("Felaktig pinkod! Avbryter uttag..."); 
             }
+        }
+
+        public static int GetParsedInt()
+        {
+            int parsedInteger;
+            while (!int.TryParse(Console.ReadLine(), out parsedInteger))
+            {
+                Console.WriteLine("Ogiltigt val");
+            }
+            return parsedInteger;
+        }
+
+        public static decimal GetParsedDecimal()
+        {
+            decimal parsedDecimal;
+            while (!decimal.TryParse(Console.ReadLine(), out parsedDecimal))
+            {
+                Console.WriteLine("Ogiltigt val");
+            }
+            return parsedDecimal;
         }
     }
 }
