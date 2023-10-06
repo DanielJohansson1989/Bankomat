@@ -15,10 +15,12 @@
             int pinCode;
 
             Console.WriteLine("Välkommen till Sparbanken!");
+            Thread.Sleep(2000);
 
             // Let user logg in to account
             while (loggInAttempts < 3)
             {
+                Console.Clear();
                 Console.Write("Ange användarnamn:");
                 string username = Console.ReadLine().ToUpper();
 
@@ -65,6 +67,7 @@
                 else 
                 {
                     Console.WriteLine("Fel användarnamn eller pinkod");
+                    Thread.Sleep(1000);
                 }
             }
             Console.WriteLine("Du har skrivit in fel användarnamn eller pinkod tre gånger.\nTryck på enter för att avlsuta");
@@ -129,6 +132,7 @@
 
         public static void PrintAcounts(decimal[] accounts, string[] accountNames) 
         {
+            Console.Clear();
             for (int i = 0; i < accounts.Length; i++) 
             {
                 Console.WriteLine($"{accountNames[i]}: {accounts[i]} sek"); 
@@ -139,6 +143,7 @@
 
         public static void TransferringMoney(decimal[] accounts, string[] accountNames) 
         {
+            Console.Clear();
             // Print available accounts. Exclude account with no money 
             Console.WriteLine("Välj vilket konto du vill flytta pengar från.");
             for (int i = 0; i < accounts.Length; i++)
@@ -161,6 +166,8 @@
                 }
 
             } while (accountNumberFrom > accounts.Length || accountNumberFrom <= 0 || accounts[accountNumberFrom - 1] == 0);
+
+            Console.Clear();
 
             // Print available accounts for deposit. Excluding account where money is tranfered from.
             Console.WriteLine("Välj vilket konto du vill flytta pengar till.");
@@ -185,6 +192,8 @@
 
             } while (accountNumberTo > accounts.Length || accountNumberTo <= 0 || accountNumberTo == accountNumberFrom);
 
+            Console.Clear();
+
             Console.WriteLine("Hur mycket vill du överföra?");
 
             decimal amountToTransfer;
@@ -207,6 +216,8 @@
 
             } while (amountToTransfer <= 0 || amountToTransfer > accounts[accountNumberFrom - 1]);
 
+            Console.Clear();
+
             // Transferring money and printing the current balance
             accounts[accountNumberFrom - 1] -= amountToTransfer; 
             accounts[accountNumberTo - 1] += amountToTransfer;
@@ -218,6 +229,7 @@
         // method for withdrawing money
         public static void WithdrawMoney(decimal[] accounts, string[] accountNames, int pinCode)
         {
+            Console.Clear();
             Console.WriteLine("Välj vilket konto du vill ta ut pengar från");
 
             // Print available accounts that has a balance greater than 0.
@@ -243,6 +255,8 @@
 
             } while (selectedAccount < 1 || selectedAccount > accounts.Length || accounts[selectedAccount - 1] == 0);
 
+            Console.Clear();
+
             // Let user enter amount to withdraw. Amount has to be greater than 0 and les than current balance.
             Console.WriteLine("Vilket belopp vill du ta ut?");
 
@@ -264,6 +278,8 @@
 
             } while (amountToWithdraw <= 0 || amountToWithdraw > accounts[selectedAccount - 1]);
 
+            Console.Clear();
+
             // User have to enter pin code
             Console.WriteLine("Bekräfta uttag med din pinkod");
 
@@ -272,6 +288,7 @@
             // Withdraw money from selected account and print new balance
             if (confirmPinCode == pinCode)
             {
+                Console.Clear();
                 accounts[selectedAccount - 1] -= amountToWithdraw;
 
                 Console.WriteLine($"{accountNames[selectedAccount - 1]}: {accounts[selectedAccount - 1]} sek");
@@ -284,6 +301,7 @@
         
         public static void DepositMoney(decimal[] accounts, string[] accountNames)
         {
+            Console.Clear();
             Console.WriteLine("Välj vilket konto du vill sätta in pengar på");
 
             // Print available accounts.
@@ -306,6 +324,8 @@
 
             } while (selectedAccount < 1 || selectedAccount > accounts.Length);
 
+            Console.Clear();
+
             // Let user enter amount to deposit. Amount has to be greater than 0.
             Console.WriteLine("Vilket belopp vill du sätta in?");
 
@@ -320,6 +340,8 @@
                     Console.WriteLine("Ange ett belopp större än noll");
                 }
             } while (amountToDeposit <= 0);
+
+            Console.Clear();
 
             // Add money to the account and print out the balance.
             accounts[selectedAccount - 1] += amountToDeposit;
