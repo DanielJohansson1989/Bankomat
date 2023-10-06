@@ -14,22 +14,20 @@
             int loggInAttempts = 0;
             int pinCode;
 
-            // Greet user at startup
-
             Console.WriteLine("Välkommen till Sparbanken!");
 
-            // Logging in to account
+            // Let user logg in to account
             while (loggInAttempts < 3)
             {
                 Console.Write("Ange användarnamn:");
                 string username = Console.ReadLine().ToUpper();
 
-                Console.Write("Ange lösenord:");
+                Console.Write("Ange pinkod:");
 
                 while (!int.TryParse(Console.ReadLine(), out pinCode))
                 {
                     Console.WriteLine("Du kan enbart ange siffror");
-                    Console.Write("Ange lösenord:");
+                    Console.Write("Ange pinkod:");
                 }
 
                 loggInAttempts++;
@@ -66,11 +64,10 @@
 
                 else 
                 {
-                    Console.WriteLine("Fel användarnamn eller lösenord");
+                    Console.WriteLine("Fel användarnamn eller pinkod");
                 }
             }
-            Console.WriteLine("Du har skrivit in fel användarnamn eller lösenord tre gånger.");
-            Console.WriteLine("Tryck på enter för att avlsuta");
+            Console.WriteLine("Du har skrivit in fel användarnamn eller pinkod tre gånger.\nTryck på enter för att avlsuta");
 
             while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
 
@@ -78,7 +75,7 @@
             
         public static void Menu(decimal[] accounts, string[] accountNames, int pinCode)
         {
-            // Menu with functions
+            // Printing a menu with functions and let user select a funktion
 
             bool runMenu = true;
             while (runMenu)
@@ -164,11 +161,10 @@
 
             } while (accountNumberFrom > accounts.Length || accountNumberFrom <= 0 || accounts[accountNumberFrom - 1] == 0);
 
-            // Print availiable acounts for deposit. 
+            // Print available accounts for deposit. Excluding account where money is tranfered from.
             Console.WriteLine("Välj vilket konto du vill flytta pengar till.");
             for (int i = 0; i < accounts.Length; i++)
             {
-                // Excluding account where money is tranfered from.
                 if (i != accountNumberFrom - 1)
                 {
                     Console.WriteLine($"{i + 1} - {accountNames[i]}");
@@ -223,7 +219,7 @@
         {
             Console.WriteLine("Välj vilket konto du vill ta ut pengar från");
 
-            // Print available accounts
+            // Print available accounts that has a balance greater than 0.
             for (int i = 0; i < accounts.Length; i++)
             {
                 if (accounts[i] > 0)
@@ -246,7 +242,7 @@
 
             } while (selectedAccount < 1 || selectedAccount > accounts.Length || accounts[selectedAccount - 1] == 0);
 
-            // Let user enter amount to withdraw
+            // Let user enter amount to withdraw. Amount has to be greater than 0 and les than current balance.
             Console.WriteLine("Vilket belopp vill du ta ut?");
 
             decimal amountToWithdraw;
@@ -268,7 +264,7 @@
             } while (amountToWithdraw <= 0 || amountToWithdraw > accounts[selectedAccount - 1]);
 
             // User have to enter pin code
-            Console.WriteLine("Bekräfta uttag med din kod");
+            Console.WriteLine("Bekräfta uttag med din pinkod");
 
             int confirmPinCode = GetParsedInt();
             
@@ -285,6 +281,7 @@
             }
         }
 
+        // Converts user input to int. Prints a message if not successful and iterates until successful.
         public static int GetParsedInt()
         {
             int parsedInteger;
@@ -295,6 +292,8 @@
             return parsedInteger;
         }
 
+
+        // Converts user input to decimal. Prints a message if not successful and iterates until successful.
         public static decimal GetParsedDecimal()
         {
             decimal parsedDecimal;
