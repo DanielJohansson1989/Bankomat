@@ -81,11 +81,7 @@
             while (runMenu)
             {
                 Console.Clear();
-                Console.WriteLine("Vad vill du göra?\n");
-                Console.WriteLine("1. Se dina konton och saldo");
-                Console.WriteLine("2. Överföring mellan konton");
-                Console.WriteLine("3. Ta ut pengar");
-                Console.WriteLine("4. Logga ut");
+                Console.WriteLine("Vad vill du göra?\n\n1. Se dina konton och saldo\n2. Överföring mellan konton\n3. Ta ut pengar\n4. Sätt in pengar\n5. Logga ut");
 
                 int menuOption = GetParsedInt();
 
@@ -113,6 +109,11 @@
                         break;
 
                     case 4:
+                        DepositMoney(accounts, accountNames);
+                        while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }      
+                        break;
+
+                    case 5:
                         runMenu = false;
                         break;
 
@@ -279,6 +280,51 @@
             { 
                 Console.WriteLine("Felaktig pinkod! Avbryter uttag..."); 
             }
+        }
+        
+        public static void DepositMoney(decimal[] accounts, string[] accountNames)
+        {
+            Console.WriteLine("Välj vilket konto du vill sätta in pengar på");
+
+            // Print available accounts.
+            for (int i = 0; i < accounts.Length; i++)
+            {
+                Console.WriteLine($"{i + 1} - {accountNames[i]}");
+            }
+
+            // Let user select accounts from available accounts
+            int selectedAccount;
+
+            do
+            {
+                selectedAccount = GetParsedInt();
+
+                if (selectedAccount < 1 || selectedAccount > accounts.Length)
+                {
+                    Console.WriteLine("Ogiltigt val");
+                }
+
+            } while (selectedAccount < 1 || selectedAccount > accounts.Length);
+
+            // Let user enter amount to deposit. Amount has to be greater than 0.
+            Console.WriteLine("Vilket belopp vill du sätta in?");
+
+            decimal amountToDeposit;
+
+            do
+            {
+                amountToDeposit = GetParsedDecimal();
+
+                if (amountToDeposit <= 0)
+                {
+                    Console.WriteLine("Ange ett belopp större än noll");
+                }
+            } while (amountToDeposit <= 0);
+
+            // Add money to the account and print out the balance.
+            accounts[selectedAccount - 1] += amountToDeposit;
+
+            Console.WriteLine($"{accountNames[selectedAccount - 1]}: {accounts[selectedAccount - 1]} sek");
         }
 
         // Converts user input to int. Prints a message if not successful and iterates until successful.
