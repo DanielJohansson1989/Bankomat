@@ -4,12 +4,18 @@
     {
         static void Main(string[] args)
         {
-            decimal[] accountsDaniel = { 500, 2000 };
-            decimal[] accountsTobias = { 100055.50m };
-            decimal[] accountsMarkus = { 1531.19m, 0, 2525.0m };
-            decimal[] accountsSandra = { 0, 50000, 460.99m, 23000 };
-            decimal[] accountsEmma = { 777.7m, 0, 0, 50679.35m, 479549.50m };
-            string[] accountNames = { "Lönekonto", "Sparkonto", "Matkonto", "Semesterkonto", "Pensionskonto" };
+            List<decimal> accountsDaniel = new List<decimal>() { 500, 2000 };
+            List<decimal> accountsTobias = new List<decimal>() { 100055.50m };
+            List<decimal> accountsMarkus = new List<decimal>() { 1531.19m, 0, 2525.0m };
+            List<decimal> accountsSandra = new List<decimal>() { 0, 50000, 460.99m, 23000 };
+            List<decimal> accountsEmma = new List<decimal>() { 777.7m, 0, 0, 50679.35m, 479549.50m };
+            List<string> accountNamesDaniel = new List<string>() { "Lönekonto", "Sparkonto" };
+            List<string> accountNamesTobias = new List<string>() { "Lönekonto" };
+            List<string> accountNamesMarkus = new List<string>() { "Lönekonto", "Sparkonto", "Matkonto" };
+            List<string> accountNamesSandra = new List<string>() { "Lönekonto", "Sparkonto", "Matkonto", "Semesterkonto" };
+            List<string> accountNamesEmma = new List<string>() { "Lönekonto", "Sparkonto", "Matkonto", "Semesterkonto", "Pensionskonto" };
+
+            int[] pinCodes = { 12345, 54321, 67890, 09876, 01234 };
 
             int loggInAttempts = 0;
             int pinCode;
@@ -32,35 +38,37 @@
                     Console.Write("Ange pinkod:");
                 }
 
+                int pinCodeIndex = Array.IndexOf(pinCodes, pinCode);
+
                 loggInAttempts++;
 
-                if (username == "DANIEL" && pinCode == 12345)
+                if (username == "DANIEL" && pinCodeIndex == 0)
                 {
-                    Menu(accountsDaniel, accountNames, pinCode);
+                    Menu(accountsDaniel, accountNamesDaniel, pinCode);
                     loggInAttempts = 0;
                 }
 
-                else if (username == "TOBIAS" && pinCode == 54321)
+                else if (username == "TOBIAS" && pinCodeIndex == 1)
                 {
-                    Menu(accountsTobias, accountNames, pinCode);
+                    Menu(accountsTobias, accountNamesTobias, pinCode);
                     loggInAttempts = 0;
                 }
 
-                else if (username == "MARKUS" && pinCode == 67890)
+                else if (username == "MARKUS" && pinCodeIndex == 2)
                 {
-                    Menu(accountsMarkus, accountNames, pinCode);
+                    Menu(accountsMarkus, accountNamesMarkus, pinCode);
                     loggInAttempts = 0;
                 }
 
-                else if (username == "SANDRA" && pinCode == 09876)
+                else if (username == "SANDRA" && pinCodeIndex == 3)
                 {
-                    Menu(accountsSandra, accountNames, pinCode);
+                    Menu(accountsSandra, accountNamesSandra, pinCode);
                     loggInAttempts = 0;
                 }
 
-                else if (username == "EMMA" && pinCode == 01234)
+                else if (username == "EMMA" && pinCodeIndex == 4)
                 {
-                    Menu(accountsEmma, accountNames, pinCode);
+                    Menu(accountsEmma, accountNamesEmma, pinCode);
                     loggInAttempts = 0;
                 }
 
@@ -76,7 +84,7 @@
 
         }        
             
-        public static void Menu(decimal[] accounts, string[] accountNames, int pinCode)
+        public static void Menu(List<decimal> accounts, List<string> accountNames, int pinCode)
         {
             // Printing a menu with functions and let user select a funktion
 
@@ -84,7 +92,7 @@
             while (runMenu)
             {
                 Console.Clear();
-                Console.WriteLine("Vad vill du göra?\n\n1. Se dina konton och saldo\n2. Överföring mellan konton\n3. Ta ut pengar\n4. Sätt in pengar\n5. Logga ut");
+                Console.WriteLine("Vad vill du göra?\n\n1. Se dina konton och saldo\n2. Överföring mellan konton\n3. Ta ut pengar\n4. Sätt in pengar\n5. Öppna nytt konto\n6. Logga ut");
 
                 int menuOption = GetParsedInt();
 
@@ -113,10 +121,17 @@
 
                     case 4:
                         DepositMoney(accounts, accountNames);
+                        Console.WriteLine("Klicka enter för att komma till huvudmenyn");
                         while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }      
                         break;
 
                     case 5:
+                        OpenNewAccount(accounts,accountNames);
+                        Console.WriteLine("Klicka enter för att komma till huvudmenyn");
+                        while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
+                        break;
+
+                    case 6:
                         runMenu = false;
                         break;
 
@@ -130,10 +145,10 @@
 
         // method for printing user accounts and current balance
 
-        public static void PrintAcounts(decimal[] accounts, string[] accountNames) 
+        public static void PrintAcounts(List<decimal> accounts, List<string> accountNames) 
         {
             Console.Clear();
-            for (int i = 0; i < accounts.Length; i++) 
+            for (int i = 0; i < accounts.Count; i++) 
             {
                 Console.WriteLine($"{accountNames[i]}: {accounts[i]} sek"); 
             }
@@ -141,12 +156,12 @@
 
         // method for transfering money between accounts
 
-        public static void TransferringMoney(decimal[] accounts, string[] accountNames) 
+        public static void TransferringMoney(List<decimal> accounts, List<string> accountNames) 
         {
             Console.Clear();
             // Print available accounts. Exclude account with no money 
             Console.WriteLine("Välj vilket konto du vill flytta pengar från.");
-            for (int i = 0; i < accounts.Length; i++)
+            for (int i = 0; i < accounts.Count; i++)
             {
                 if (accounts[i] > 0)
                 {
@@ -160,18 +175,18 @@
             {
                 accountNumberFrom = GetParsedInt();
 
-                if (accountNumberFrom > accounts.Length || accountNumberFrom <= 0 || accounts[accountNumberFrom - 1] == 0)
+                if (accountNumberFrom > accounts.Count || accountNumberFrom <= 0 || accounts[accountNumberFrom - 1] == 0)
                 {
                     Console.WriteLine("Ogiltigt val");
                 }
 
-            } while (accountNumberFrom > accounts.Length || accountNumberFrom <= 0 || accounts[accountNumberFrom - 1] == 0);
+            } while (accountNumberFrom > accounts.Count || accountNumberFrom <= 0 || accounts[accountNumberFrom - 1] == 0);
 
             Console.Clear();
 
             // Print available accounts for deposit. Excluding account where money is tranfered from.
             Console.WriteLine("Välj vilket konto du vill flytta pengar till.");
-            for (int i = 0; i < accounts.Length; i++)
+            for (int i = 0; i < accounts.Count; i++)
             {
                 if (i != accountNumberFrom - 1)
                 {
@@ -185,12 +200,12 @@
             {
                 accountNumberTo = GetParsedInt();
 
-                if (accountNumberTo > accounts.Length || accountNumberTo <= 0 || accountNumberTo == accountNumberFrom)
+                if (accountNumberTo > accounts.Count || accountNumberTo <= 0 || accountNumberTo == accountNumberFrom)
                 {
                     Console.WriteLine("Ogiltigt val");
                 }
 
-            } while (accountNumberTo > accounts.Length || accountNumberTo <= 0 || accountNumberTo == accountNumberFrom);
+            } while (accountNumberTo > accounts.Count || accountNumberTo <= 0 || accountNumberTo == accountNumberFrom);
 
             Console.Clear();
 
@@ -227,13 +242,13 @@
         }
 
         // method for withdrawing money
-        public static void WithdrawMoney(decimal[] accounts, string[] accountNames, int pinCode)
+        public static void WithdrawMoney(List<decimal> accounts, List<string> accountNames, int pinCode)
         {
             Console.Clear();
             Console.WriteLine("Välj vilket konto du vill ta ut pengar från");
 
             // Print available accounts that has a balance greater than 0.
-            for (int i = 0; i < accounts.Length; i++)
+            for (int i = 0; i < accounts.Count; i++)
             {
                 if (accounts[i] > 0)
                 {
@@ -248,12 +263,12 @@
             {
                 selectedAccount = GetParsedInt();
 
-                if (selectedAccount < 1 || selectedAccount > accounts.Length || accounts[selectedAccount - 1] == 0) 
+                if (selectedAccount < 1 || selectedAccount > accounts.Count || accounts[selectedAccount - 1] == 0) 
                 {
                     Console.WriteLine("Ogiltigt val");
                 }
 
-            } while (selectedAccount < 1 || selectedAccount > accounts.Length || accounts[selectedAccount - 1] == 0);
+            } while (selectedAccount < 1 || selectedAccount > accounts.Count || accounts[selectedAccount - 1] == 0);
 
             Console.Clear();
 
@@ -299,13 +314,13 @@
             }
         }
         
-        public static void DepositMoney(decimal[] accounts, string[] accountNames)
+        public static void DepositMoney(List<decimal> accounts, List<string> accountNames)
         {
             Console.Clear();
             Console.WriteLine("Välj vilket konto du vill sätta in pengar på");
 
             // Print available accounts.
-            for (int i = 0; i < accounts.Length; i++)
+            for (int i = 0; i < accounts.Count; i++)
             {
                 Console.WriteLine($"{i + 1} - {accountNames[i]}");
             }
@@ -317,12 +332,12 @@
             {
                 selectedAccount = GetParsedInt();
 
-                if (selectedAccount < 1 || selectedAccount > accounts.Length)
+                if (selectedAccount < 1 || selectedAccount > accounts.Count)
                 {
                     Console.WriteLine("Ogiltigt val");
                 }
 
-            } while (selectedAccount < 1 || selectedAccount > accounts.Length);
+            } while (selectedAccount < 1 || selectedAccount > accounts.Count);
 
             Console.Clear();
 
@@ -347,6 +362,18 @@
             accounts[selectedAccount - 1] += amountToDeposit;
 
             Console.WriteLine($"{accountNames[selectedAccount - 1]}: {accounts[selectedAccount - 1]} sek");
+        }
+
+        // Add a new account in the user profile 
+        public static void OpenNewAccount(List<decimal> accounts, List<string> accountNames)
+        {
+            Console.Clear();
+            Console.WriteLine("Vad vill du att ditt konto ska heta?");
+            accountNames.Add(Console.ReadLine());
+            accounts.Add(0);
+            Console.WriteLine("Kontot skapas...");
+            Thread.Sleep(1000);
+            Console.WriteLine("Kontot skapat.");
         }
 
         // Converts user input to int. Prints a message if not successful and iterates until successful.
