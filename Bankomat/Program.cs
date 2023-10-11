@@ -99,21 +99,18 @@
                 switch (menuOption)
                 {
                     case 1:
-                        // method see acounts and balance
                         PrintAcounts(accounts, accountNames);
                         Console.WriteLine("Klicka enter för att komma till huvudmenyn");
                         while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
                         break;
 
                     case 2:
-                        // method transfere between acounts
                         TransferringMoney(accounts, accountNames);
                         Console.WriteLine("Klicka enter för att komma till huvudmenyn");
                         while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
                         break;
 
                     case 3:
-                        // method withdraw money
                         WithdrawMoney(accounts, accountNames, pinCode);
                         Console.WriteLine("Klicka enter för att komma till huvudmenyn");
                         while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
@@ -132,7 +129,7 @@
                         break;
 
                     case 6:
-                        runMenu = false;
+                        runMenu = false; 
                         break;
 
                     default:
@@ -143,7 +140,7 @@
             }
         }   
 
-        // method for printing user accounts and current balance
+        // Print a list of account names and the corresponding balance on each of them.
 
         public static void PrintAcounts(List<decimal> accounts, List<string> accountNames) 
         {
@@ -154,7 +151,7 @@
             }
         }
 
-        // method for transfering money between accounts
+        // Let user select two accounts and an amount of money that is moved from the first account to the second 
 
         public static void TransferringMoney(List<decimal> accounts, List<string> accountNames) 
         {
@@ -241,7 +238,7 @@
             Console.WriteLine($"{accountNames[accountNumberTo - 1]}: {accounts[accountNumberTo - 1]} sek");
         }
 
-        // method for withdrawing money
+        // Let user select an account and an amount that is then deducted from the account if user enters the pin code used to logg in.
         public static void WithdrawMoney(List<decimal> accounts, List<string> accountNames, int pinCode)
         {
             Console.Clear();
@@ -314,6 +311,7 @@
             }
         }
         
+        // Let user select an account and an amount than will be added to the account
         public static void DepositMoney(List<decimal> accounts, List<string> accountNames)
         {
             Console.Clear();
@@ -364,7 +362,7 @@
             Console.WriteLine($"{accountNames[selectedAccount - 1]}: {accounts[selectedAccount - 1]} sek");
         }
 
-        // Add a new account in the user profile 
+        // Add a new empty account to the list of the user and let user enter a name for the account.
         public static void OpenNewAccount(List<decimal> accounts, List<string> accountNames)
         {
             Console.Clear();
